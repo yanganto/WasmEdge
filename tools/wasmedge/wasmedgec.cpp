@@ -109,6 +109,10 @@ int main(int Argc, const char *Argv[]) {
     if (GasMeasuring.value()) {
       Conf.getCompilerConfigure().setCostMeasuring(true);
     }
+    if (OutputPath.extension().u8string() == ".wasm"sv) {
+      Conf.getCompilerConfigure().setOutputFormat(
+          WasmEdge::CompilerConfigure::OutputFormat::Wasm);
+    }
     WasmEdge::AOT::Compiler Compiler(Conf);
     if (auto Res = Compiler.compile(Data, *Module, OutputPath); !Res) {
       const auto Err = static_cast<uint32_t>(Res.error());
